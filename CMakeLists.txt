@@ -8,18 +8,20 @@ add_subdirectory(external/glew EXCLUDE_FROM_ALL)
 add_subdirectory(external/glfw EXCLUDE_FROM_ALL)
 
 set(LIBS libglew_static glfw)
+set(TUTORIALS 01 02)
 
-# 01
-file(GLOB_RECURSE 01_SRC
-	01/src/*.c)
+foreach(TUTORIAL ${TUTORIALS})
+	file(GLOB_RECURSE ${TUTORIAL}_SRC
+		${TUTORIAL}/src/*.c)
 
-file(GLOB_RECURSE 01_HDR
-	01/include/*.h)
+	file(GLOB_RECURSE ${TUTORIAL}_HDR
+		${TUTORIAL}/include/*.h)
 
-add_executable(tutorial_01
-	${01_SRC}
-	${01_HDR})
+	add_executable(tutorial_${TUTORIAL}
+		${${TUTORIAL}_SRC}
+		${${TUTORIAL}_HDR})
 
-target_include_directories(tutorial_01 PUBLIC 01/include)
+	target_include_directories(tutorial_${TUTORIAL} PUBLIC ${TUTORIAL}/include)
 
-target_link_libraries(tutorial_01 PRIVATE ${LIBS})
+	target_link_libraries(tutorial_${TUTORIAL} PRIVATE ${LIBS})
+endforeach()
